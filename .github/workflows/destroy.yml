@@ -23,5 +23,8 @@ jobs:
       - name: Install AWS CDK
         run: npm install -g aws-cdk
 
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
       - name: Destroy CDK Stack
         run: cdk destroy --all --force
