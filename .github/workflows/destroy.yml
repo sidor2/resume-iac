@@ -1,0 +1,27 @@
+name: Destroy CDK Stack
+
+on:
+  push:
+    paths:
+      - delete.txt
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install AWS CDK
+        run: npm install -g aws-cdk
+
+      - name: Destroy CDK Stack
+        run: cdk destroy --all --force
