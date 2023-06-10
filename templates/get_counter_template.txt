@@ -1,0 +1,4 @@
+#set($inputRoot = $input.path('$'))
+{
+"counter": $inputRoot.Items.elem.counter.N",
+}
