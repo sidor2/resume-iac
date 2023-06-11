@@ -13,7 +13,7 @@ app = cdk.App()
 
 
 
-domain_name = "cmcloudlab1707.info"
+domain_name = "cmcloudlab662.info"
 
 api_ddb_lambda = ApiDdbLambdaStack(app, "ApiGwDdbStack",
     domain_name=domain_name,

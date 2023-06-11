@@ -29,8 +29,6 @@ class S3WebsiteStack(Stack):
 
         # Create the S3 bucket
         bucket = s3.Bucket(self, "WebsiteBucket",
-            # website_index_document="index.html",
-            # website_error_document="error.html",
             public_read_access=False,
             enforce_ssl=True,
             block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
@@ -48,12 +46,6 @@ class S3WebsiteStack(Stack):
             validation=acm.CertificateValidation.from_dns(hosted_zone=hosted_zone)
         )
 
-        # Create a CloudFront distribution for the S3 bucket
-
-        # Create an Origin Access Identity for the CloudFront distribution
-        # origin_access_identity = cloudfront.OriginAccessIdentity(self, "OriginAccessIdentity")
-
-
         cfn_origin_access_control = cloudfront.CfnOriginAccessControl(self, "BucketOAC",
             origin_access_control_config=cloudfront.CfnOriginAccessControl.OriginAccessControlConfigProperty(
                 name="webbucket",
@@ -68,11 +60,6 @@ class S3WebsiteStack(Stack):
                 origin=origins.S3Origin(bucket),
                 viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
                 allowed_methods=cloudfront.AllowedMethods.ALLOW_GET_HEAD,
-                # origin=origins.HttpOrigin(
-                #     bucket.bucket_website_domain_name,
-                #     # https_port=443,
-                #     origin_ssl_protocols=[cloudfront.OriginSslPolicy.TLS_V1_2]
-                # )
             ),
             price_class=cloudfront.PriceClass.PRICE_CLASS_100,
             certificate=certificate,
@@ -85,12 +72,13 @@ class S3WebsiteStack(Stack):
             path_pattern="/counter",
             origin = origins.RestApiOrigin(
                 rest_api=rest_api,
-                origin_path="/prod/counter",
-            )
+                origin_path="/prod",
+            ),
+            viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+            cache_policy=cloudfront.CachePolicy.CACHING_DISABLED,
+            origin_request_policy=cloudfront.OriginRequestPolicy.ALL_VIEWER
+                
         )
-
-        # Grant read access to the bucket for the CloudFront distribution
-        # bucket.grant_read(origin_access_identity)
         
         dist_arn = Arn.format(
             ArnComponents(
@@ -123,31 +111,6 @@ class S3WebsiteStack(Stack):
                 }
             )
         )
-
-
-        # Create the CloudFront distribution
-        # distribution = cloudfront.CloudFrontWebDistribution(self, "CloudFrontWebDistribution",
-        #     origin_configs=[
-        #         cloudfront.SourceConfiguration(
-        #             s3_origin_source=cloudfront.S3OriginConfig(
-        #                 s3_bucket_source=bucket,
-        #                 # origin_access_identity=origin_access_identity,
-        #                 ),
-        #             behaviors=[cloudfront.Behavior(
-        #                     is_default_behavior=True,                             
-        #                 )
-        #             ]
-        #         )
-        #     ],
-        #     viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-        #     price_class=cloudfront.PriceClass.PRICE_CLASS_100,
-        #     viewer_certificate=cloudfront.ViewerCertificate.from_acm_certificate(
-        #         certificate=certificate,
-        #         aliases=[f"www.{domain_name}"],
-        #     ),
-        #     comment="CloudFront Distribution for the S3 Website",
-        # )
-
 
         route53.CnameRecord(self, "CnameRecord",
             zone=hosted_zone,
