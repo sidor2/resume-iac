@@ -11,9 +11,7 @@ from resume_iac.apigw_ddb_lambda_stack import ApiDdbLambdaStack
 
 app = cdk.App()
 
-
-
-domain_name = "cmcloudlab662.info"
+domain_name = "cmcloudlab490.info"
 
 api_ddb_lambda = ApiDdbLambdaStack(app, "ApiGwDdbStack",
     domain_name=domain_name,
@@ -31,7 +29,5 @@ S3WebsiteStack(app, "S3WebsiteStack",
     ),
     rest_api=api_ddb_lambda.rest_api,
 )
-
-
 
 app.synth()

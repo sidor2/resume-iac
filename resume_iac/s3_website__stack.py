@@ -1,5 +1,6 @@
 from aws_cdk import (
     ArnFormat,
+    Duration,
     Stack,
     CfnOutput,
     RemovalPolicy,
@@ -55,17 +56,37 @@ class S3WebsiteStack(Stack):
             )
         )
 
+# TODO: add a custom error page to the distribution
+# TODO: add resource policy to the API Gateway to allow access from the distribution only
+
+        response_headers_policy=cloudfront.ResponseHeadersPolicy(self, "ResponseHeadersPolicy",
+            security_headers_behavior=cloudfront.ResponseSecurityHeadersBehavior(
+                content_security_policy=cloudfront.ResponseHeadersContentSecurityPolicy(
+                    content_security_policy="default-src 'none'; script-src-elem 'self'; connect-src 'self'; require-trusted-types-for 'script';", 
+                        override=True
+                    ),
+                content_type_options=cloudfront.ResponseHeadersContentTypeOptions(override=True),
+                frame_options=cloudfront.ResponseHeadersFrameOptions(frame_option=cloudfront.HeadersFrameOption.DENY, override=True),
+                referrer_policy=cloudfront.ResponseHeadersReferrerPolicy(referrer_policy=cloudfront.HeadersReferrerPolicy.NO_REFERRER, override=True),
+                strict_transport_security=cloudfront.ResponseHeadersStrictTransportSecurity(access_control_max_age=Duration.seconds(15768000), include_subdomains=True, override=True),
+                xss_protection=cloudfront.ResponseHeadersXSSProtection(protection=True, mode_block=True, override=True)
+            )
+        )
+
         distribution = cloudfront.Distribution(self, "CloudFrontDistribution",
             default_behavior=cloudfront.BehaviorOptions(
                 origin=origins.S3Origin(bucket),
                 viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
                 allowed_methods=cloudfront.AllowedMethods.ALLOW_GET_HEAD,
+                response_headers_policy=response_headers_policy,
+                cache_policy=cloudfront.CachePolicy.CACHING_DISABLED,
             ),
             price_class=cloudfront.PriceClass.PRICE_CLASS_100,
             certificate=certificate,
             domain_names=[f"www.{domain_name}"],
             comment="CloudFront Distribution for the S3 Website",
             default_root_object="index.html",
+            
         )
 
         distribution.add_behavior(
@@ -76,7 +97,7 @@ class S3WebsiteStack(Stack):
             ),
             viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
             cache_policy=cloudfront.CachePolicy.CACHING_DISABLED,
-            origin_request_policy=cloudfront.OriginRequestPolicy.ALL_VIEWER
+            origin_request_policy=cloudfront.OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER
                 
         )
         
