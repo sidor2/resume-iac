@@ -71,39 +71,54 @@ class ApiDdbLambdaStack(Stack):
             retention=logs.RetentionDays.ONE_DAY
         )
 
-# TODO: narrow down CORS
-
         # Create API Gateway REST API
         self.rest_api = apigateway.RestApi(self, "RestApi",
             rest_api_name="MyApi",
-            # default_cors_preflight_options=apigateway.CorsOptions(
-            #     allow_origins=[f"{domain_name}"],
-            #     allow_methods=["GET", "OPTIONS"],
-            #     ),
             deploy_options=apigateway.StageOptions(
                 throttling_rate_limit=10,
                 throttling_burst_limit=2
-            )
+            ),
+            description="API Gateway for Counter Lambda",
+            endpoint_types=[apigateway.EndpointType.EDGE]
         )
-
 
         # # Add POST method to the API
-        resource = self.rest_api.root.add_resource("counter",   
-        )
+        resource = self.rest_api.root.add_resource("counter",)
 
-        resource.add_cors_preflight(
-            allow_origins=[f"https://www.{domain_name}"],
-            allow_methods=["GET"],
-        )
-
-        resource.add_method("GET",
+        get_counter_method = resource.add_method("GET",
             apigateway.LambdaIntegration(counter_lambda),
             operation_name="GetCounter",
-            # cors=apigateway.CorsOptions(
-            #     allow_origins=[f"{domain_name}"],
-            #     allow_methods=["GET", "OPTIONS"],
-            # )
+            api_key_required=True,
         )
+
+        plan = self.rest_api.add_usage_plan("CounterUsagePlan",
+            name="CounterUsagePlan",
+            throttle=apigateway.ThrottleSettings(
+                rate_limit=10,
+                burst_limit=2
+            ),
+        )
+        
+        plan.add_api_stage(
+            stage=self.rest_api.deployment_stage,
+            throttle=[apigateway.ThrottlingPerMethod(
+                    method=get_counter_method,
+                    throttle=apigateway.ThrottleSettings(
+                        rate_limit=10,
+                        burst_limit=2
+                    )
+                )
+            ]
+        )
+
+        self.api_key = self.rest_api.add_api_key("CounterApiKey",
+            api_key_name="CounterApiKey",
+            description="Counter API Key",
+        )
+
+        
+
+        plan.add_api_key(self.api_key)
 
         # Output the API URL
         CfnOutput(self, "ApiEndpoint",

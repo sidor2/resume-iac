@@ -2,7 +2,6 @@
 import os
 
 import aws_cdk as cdk
-from resume_iac.imported import ImportedStack
 
 from resume_iac.s3_website__stack import S3WebsiteStack
 from resume_iac.apigw_ddb_lambda_stack import ApiDdbLambdaStack
@@ -11,7 +10,7 @@ from resume_iac.apigw_ddb_lambda_stack import ApiDdbLambdaStack
 
 app = cdk.App()
 
-domain_name = "cmcloudlab490.info"
+domain_name = "cmcloudlab956.info"
 
 api_ddb_lambda = ApiDdbLambdaStack(app, "ApiGwDdbStack",
     domain_name=domain_name,
@@ -28,6 +27,7 @@ S3WebsiteStack(app, "S3WebsiteStack",
         region=os.environ["CDK_DEFAULT_REGION"]
     ),
     rest_api=api_ddb_lambda.rest_api,
+    api_key=api_ddb_lambda.api_key,
 )
 
 app.synth()

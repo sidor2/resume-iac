@@ -4,15 +4,12 @@ from aws_cdk import (
     Stack,
     CfnOutput,
     RemovalPolicy,
-    Token,
     aws_cloudfront_origins as origins,
     aws_cloudfront as cloudfront,
     aws_certificatemanager as acm,
     aws_route53 as route53,
-    aws_route53_targets as targets,
     aws_s3 as s3,
     aws_iam as iam,
-    # core,
     Arn,
     ArnComponents,
     aws_apigateway as apigateway
@@ -24,7 +21,8 @@ class S3WebsiteStack(Stack):
 
     def __init__(self, scope: Construct, id: str, 
                 domain_name: str, 
-                rest_api: apigateway.RestApi, 
+                rest_api: apigateway.RestApi,
+                api_key: apigateway.ApiKey, 
                 **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
@@ -57,12 +55,11 @@ class S3WebsiteStack(Stack):
         )
 
 # TODO: add a custom error page to the distribution
-# TODO: add resource policy to the API Gateway to allow access from the distribution only
 
         response_headers_policy=cloudfront.ResponseHeadersPolicy(self, "ResponseHeadersPolicy",
             security_headers_behavior=cloudfront.ResponseSecurityHeadersBehavior(
                 content_security_policy=cloudfront.ResponseHeadersContentSecurityPolicy(
-                    content_security_policy="default-src 'none'; script-src-elem 'self'; connect-src 'self'; require-trusted-types-for 'script';", 
+                    content_security_policy="default-src 'none'; script-src-elem 'self'; connect-src 'self'; frame-src 'self' www.credly.com; style-src 'unsafe-inline';", 
                         override=True
                     ),
                 content_type_options=cloudfront.ResponseHeadersContentTypeOptions(override=True),
@@ -79,6 +76,7 @@ class S3WebsiteStack(Stack):
                 viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
                 allowed_methods=cloudfront.AllowedMethods.ALLOW_GET_HEAD,
                 response_headers_policy=response_headers_policy,
+                # TODO: enable cache for prod
                 cache_policy=cloudfront.CachePolicy.CACHING_DISABLED,
             ),
             price_class=cloudfront.PriceClass.PRICE_CLASS_100,
@@ -86,7 +84,6 @@ class S3WebsiteStack(Stack):
             domain_names=[f"www.{domain_name}"],
             comment="CloudFront Distribution for the S3 Website",
             default_root_object="index.html",
-            
         )
 
         distribution.add_behavior(
@@ -94,6 +91,7 @@ class S3WebsiteStack(Stack):
             origin = origins.RestApiOrigin(
                 rest_api=rest_api,
                 origin_path="/prod",
+                custom_headers={"x-api-key": f"REPLACE ME WITH API KEY ID {api_key.key_id }"}
             ),
             viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
             cache_policy=cloudfront.CachePolicy.CACHING_DISABLED,
