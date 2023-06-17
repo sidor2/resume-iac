@@ -7,6 +7,7 @@ on:
     paths-ignore:
       - '**/delete.txt'
       - '**/destroy.yml'
+  workflow_dispatch:
 
 env:
   CDK_DEFAULT_REGION : "us-east-1"
@@ -36,9 +37,9 @@ jobs:
           # aws-region: {{ secrets.AWS_REGION }}
       
       # Hello from AWS: WhoAmI
-      - name: Sts GetCallerIdentity
-        run: |
-          aws sts get-caller-identity
+      # - name: Sts GetCallerIdentity
+      #   run: |
+      #     aws sts get-caller-identity
 
       - name: Install Python
         uses: actions/setup-python@v2

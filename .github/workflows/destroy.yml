@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - delete.txt
-
+  workflow_dispatch:
 
 env:
   CDK_DEFAULT_REGION : "us-east-1"
