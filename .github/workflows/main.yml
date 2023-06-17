@@ -6,6 +6,7 @@ on:
       - main
     paths-ignore:
       - '**/delete.txt'
+      - '**/destroy.yml'
 
 env:
   CDK_DEFAULT_REGION : "us-east-1"
