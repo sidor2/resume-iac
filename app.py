@@ -10,7 +10,7 @@ from resume_iac.apigw_ddb_lambda_stack import ApiDdbLambdaStack
 
 app = cdk.App()
 
-domain_name = "cmcloudlab956.info"
+domain_name = os.environ["DOMAIN"]
 
 api_ddb_lambda = ApiDdbLambdaStack(app, "ApiGwDdbStack",
     domain_name=domain_name,
