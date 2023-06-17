@@ -10,5 +10,4 @@ __pycache__
 cdk.out
 p.json
 cdk.context.json
-
-cdk.context.json
+cdk.json
