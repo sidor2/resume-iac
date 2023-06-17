@@ -10,6 +10,7 @@ on:
 env:
   CDK_DEFAULT_REGION : "us-east-1"
   CDK_DEFAULT_ACCOUNT: "943892479744"
+  DOMAIN: "sidor.me"
 
 permissions:
   id-token: write   # This is required for requesting the JWT
