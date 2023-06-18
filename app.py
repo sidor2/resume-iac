@@ -13,7 +13,6 @@ app = cdk.App()
 domain_name = os.environ["DOMAIN"]
 
 api_ddb_lambda = ApiDdbLambdaStack(app, "ApiGwDdbStack",
-    domain_name=domain_name,
     env=cdk.Environment(
         account=os.environ["CDK_DEFAULT_ACCOUNT"],
         region=os.environ["CDK_DEFAULT_REGION"]

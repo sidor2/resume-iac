@@ -17,7 +17,6 @@ class ApiDdbLambdaStack(Stack):
 
     def __init__(self, 
                 scope: Construct, id: str, 
-                domain_name: str, 
                 **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
@@ -114,7 +113,7 @@ class ApiDdbLambdaStack(Stack):
         )
 
         self.api_key = self.rest_api.add_api_key("CounterApiKey",
-            api_key_name="CounterApiKey2",
+            api_key_name="CounterApiKey",
             description="Counter API Key",
         )
 

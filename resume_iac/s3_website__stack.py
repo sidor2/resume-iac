@@ -133,6 +133,20 @@ class S3WebsiteStack(Stack):
             cache_policy=cloudfront.CachePolicy.CACHING_DISABLED,
         )
 
+        not_found_res = cloudfront.ErrorResponse(
+            http_status=404,
+            response_http_status=404,
+            response_page_path="/error.html",
+            ttl=Duration.seconds(10)
+        )
+
+        not_auth_res = cloudfront.ErrorResponse(
+            http_status=403,
+            response_http_status=403,
+            response_page_path="/error.html",
+            ttl=Duration.seconds(10)
+        )
+
         distribution = cloudfront.Distribution(self, "CloudFrontDistribution",
             default_behavior=default_behave,
             price_class=cloudfront.PriceClass.PRICE_CLASS_100,
@@ -140,6 +154,7 @@ class S3WebsiteStack(Stack):
             domain_names=[f"www.{domain_name}"],
             comment="CloudFront Distribution for the S3 Website",
             default_root_object="index.html",
+            error_responses=[not_found_res, not_auth_res]
         )
 
         rest_api_origin = origins.RestApiOrigin(
