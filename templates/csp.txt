@@ -1,0 +1,5 @@
+default-src 'none'; 
+script-src-elem 'self'; 
+connect-src 'self'; 
+frame-src 'self' www.credly.com; 
+style-src 'unsafe-inline';

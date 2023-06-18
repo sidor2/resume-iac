@@ -1,6 +1,7 @@
 from aws_cdk import (
     Stack,
     CfnOutput,
+    RemovalPolicy,
     aws_logs as logs,
     aws_apigateway as apigateway,
     aws_dynamodb as dynamodb,
@@ -26,7 +27,8 @@ class ApiDdbLambdaStack(Stack):
                 name="id", 
                 type=dynamodb.AttributeType.NUMBER
                 ),
-            billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST
+            billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST,
+            removal_policy=RemovalPolicy.DESTROY
         )
 
         lambda_role = iam.Role(

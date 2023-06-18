@@ -17,6 +17,21 @@ from aws_cdk import (
 
 from constructs import Construct
 
+def read_file_and_convert_to_string(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+            lines = [line.strip() for line in lines]
+            text_string = ' '.join(lines)
+            return text_string
+    except IOError:
+        print(f"Error: Unable to read the file '{file_path}'.")
+
+
+file_path = 'templates/csp.txt'
+csp = read_file_and_convert_to_string(file_path)
+
+
 class S3WebsiteStack(Stack):
 
     def __init__(self, scope: Construct, id: str, 
@@ -51,7 +66,7 @@ class S3WebsiteStack(Stack):
                 origin_access_control_origin_type="s3",
                 signing_behavior="always",
                 signing_protocol="sigv4"
-            )
+            ),
         )
 
 # TODO: add a custom error page to the distribution
@@ -59,7 +74,7 @@ class S3WebsiteStack(Stack):
         response_headers_policy=cloudfront.ResponseHeadersPolicy(self, "ResponseHeadersPolicy",
             security_headers_behavior=cloudfront.ResponseSecurityHeadersBehavior(
                 content_security_policy=cloudfront.ResponseHeadersContentSecurityPolicy(
-                    content_security_policy="default-src 'none'; script-src-elem 'self'; connect-src 'self'; frame-src 'self' www.credly.com; style-src 'unsafe-inline';", 
+                    content_security_policy=f"{csp}", 
                         override=True
                     ),
                 content_type_options=cloudfront.ResponseHeadersContentTypeOptions(override=True),
