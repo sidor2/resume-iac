@@ -13,3 +13,4 @@ cdk.context.json
 exports.sh
 resume_iac/s3_website__stack.py
 iam.json
+.vscode/settings.json
