@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
 
 env:
-  CDK_DEFAULT_REGION: ${{ vars.CDK_DEFAULT_REGION }}
-  CDK_DEFAULT_ACCOUNT: ${{ vars.CDK_DEFAULT_ACCOUNT }}
-  DOMAIN: ${{ vars.DOMAIN }}
+  CDK_DEFAULT_REGION: ${{ vars.REGION }}
+  CDK_DEFAULT_ACCOUNT: ${{ vars.ACCOUNT }}
+  DOMAIN: ${{ vars.DOMAIN_NAME }}
 
 permissions:
   id-token: write   # This is required for requesting the JWT
