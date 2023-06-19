@@ -49,7 +49,7 @@ class ApiDdbLambdaStack(Stack):
             handler='index.lambda_handler',
             code=_lambda.Code.from_asset('./lambdas/counter_lambda'),
             role=lambda_role,
-            reserved_concurrent_executions=10,
+            reserved_concurrent_executions=11,
             environment={
                 'COUNTER_TABLE_NAME': ddb_table.table_name,
                 'LOG_LEVEL': 'INFO'
