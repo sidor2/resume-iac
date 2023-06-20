@@ -1,15 +1,15 @@
 name: Destroy CDK Stack
 
 on:
-  push:
-    paths:
-      - delete.txt
+  # push:
+    # paths:
+    #   - delete.txt
   workflow_dispatch:
 
 env:
-  CDK_DEFAULT_REGION : "us-east-1"
-  CDK_DEFAULT_ACCOUNT: "943892479744"
-  DOMAIN: "sidor.me"
+  CDK_DEFAULT_REGION : ${{ secrets.CDK_DEFAULT_REGION }}
+  CDK_DEFAULT_ACCOUNT: ${{ secrets.CDK_DEFAULT_ACCOUNT }}
+  DOMAIN: ${{ vars.DOMAIN }}
 
 permissions:
   id-token: write   # This is required for requesting the JWT
@@ -26,12 +26,9 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: arn:aws:iam::943892479744:role/Resume-IAC-Role
+          role-to-assume: ${{ secrets.DEPLOYMENT_ROLE }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.CDK_DEFAULT_REGION }}
-          # aws-access-key-id: {{ secrets.AWS_ACCESS_KEY_ID }}
-          # aws-secret-access-key: {{ secrets.AWS_SECRET_ACCESS_KEY }}
-          # aws-region: {{ secrets.AWS_REGION }}
 
       - name: Install AWS CDK
         run: npm install -g aws-cdk
