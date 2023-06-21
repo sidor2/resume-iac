@@ -1,58 +1,90 @@
+# cloud-resume-challenge
 
-# Welcome to your CDK Python project!
+The [Cloud Resume Challenge](https://cloudresumechallenge.dev/docs/the-challenge/aws/) was created by [Forrest Brazeal](https://forrestbrazeal.com/) as a self-guided, hands-on project to incorporate a large range of skills used by DevOps Engineers and Cloud Developers.
 
-This is a blank project for CDK development with Python.
+The challenge is designed to champion *self-learning* as it intentionally gives only high-level guidance on how to research, navigate, and implement core topics such as DNS, APIs, Testing, Infrastructure-as-Code, and CI/CD pipelines.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+</br>
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+My website is built on AWS using S3, CloudFront, Route 53, Certificate Manager, Lambda, DynamoDB, API Gateway, and the Boto3 Python SDK.
 
-To manually create a virtualenv on MacOS and Linux:
+Infrastructure-as-Code is implemented using AWS Python CDK, while two CI/CD pipelines are triggered and executed using GitHub Actions. Although the challenge asks for utilizing Terraform, I was already in the process of learning the CDK and decided to 
 
-```
-$ python3 -m venv .venv
-```
+</br>
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+View the site at [**www.sidor.com**](https://www.sidor.com).
 
-```
-$ source .venv/bin/activate
-```
+Check out my article about completing the project here:  [**The Cloud Resume Challenge:  My DevOps Journey from Building Technology to the Cloud**](https://www.linkedin.com/pulse/cloud-resume-challenge-my-devops-journey-from-building-william-lewis)
 
-If you are a Windows platform, you would activate the virtualenv like this:
 
-```
-% .venv\Scripts\activate.bat
-```
+<img src="./website-architecture-diagram.svg" alt="Website Architecture Diagram" width="100%" height="56.25%">
 
-Once the virtualenv is activated, you can install the required dependencies.
+</br>
+</br>
 
-```
-$ pip install -r requirements.txt
-```
+---
 
-At this point you can now synthesize the CloudFormation template for this code.
+## Challenge Steps & Notes:
 
-```
-$ cdk synth
-```
 
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
+- [x]  1. Earn an **AWS Certification**
+    - AWS Certified Solutions Architect – Associate, September 2022
+    - AWS Certified Security – Specialty, March 2023
 
-## Useful commands
+- [ ]  2. Write Resume in **HTML**
+    - 
+    - 
 
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
+- [ ]  3. Style Resume in **CSS**
+    - 
 
-Enjoy!
+- [ ]  4. Deploy Resume to Static Website with **AWS S3**
+    - the S3 bucket is configured as the first origin and exposed via Cloudfront
+    - public access is restricted only via the Cloudfront distribution by utilized OAC (origin access control)
+    - Block Public Access is ON & static website feature disabled for compatibility with OAC
+
+- [x]  5. Use HTTPS Protocol with **AWS CloudFront**
+    - redirects any HTTP requests to HTTPS
+    - uses AWS issued SSL certificate 
+    - the bucket's resource policy is configured to enforce TLS
+    - security headers configured for the distribution
+
+- [x]  6. Point Custom DNS Domain Name with **AWS Route 53**
+    - custom domain purchased through **Route 53**
+    - a CNAME record points the domain name to Cloudfront distribution
+
+- [x]  7. Create a Webpage Visitor Counter with **JavaScript**
+    - on loading the website, GET request sent to the API to retrieve the updated counter value
+    - latest number of page views displayed to visitor at page bottom
+
+- [x]  8. Create a Visitor Counter Database with **AWS DynamoDB**
+    - a table holds single record with single attribute which is updated by Lambda function
+
+- [x]  9. Do Not Communicate Directly With **DynamoDB**
+    - REST API configured as the second origin for the Cloudfront distribution, allowing for GET request
+    - REST API can be invoked only via the Cloudfront distribution and proxies the API call to a Lambda function 
+    - on website loading, API call is made, Lambda function is invoked
+    - function checks latest count from table, increments by 1, and writes back to the table
+    - the updated counter value is returned in JSON body
+
+- [ ] 11. Perform **Tests** on Python Code
+    - tests run on pytest framework, with lambda function imported locally to be tested
+    - 
+    - 
+    - requests module used to make calls to API URL endpoint 
+
+- [ ] 12. Configure Resources with **IaC**
+    - 
+
+- [ ] 13. Utilize **Source Control** with GitHub
+    - 
+
+- [ ] 14. Implement **Backend CI/CD** for Terraform with GitHub Actions
+    - 
+
+- [ ] 15. Implement **Frontend CI/CD** for Webpage Content with GitHub Actions
+    - 
+
+- [ ] 16. Share Your Challenges and Learnings with a **Blog Post**
+    - 
+

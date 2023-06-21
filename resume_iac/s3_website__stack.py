@@ -79,8 +79,6 @@ class S3WebsiteStack(Stack):
             origin_access_control_config=oac_config
         )
 
-# TODO: add a custom error page to the distribution
-
         cs_policy = cloudfront.ResponseHeadersContentSecurityPolicy(
             content_security_policy=f"{csp}", 
             override=True
@@ -160,7 +158,7 @@ class S3WebsiteStack(Stack):
         rest_api_origin = origins.RestApiOrigin(
             rest_api=rest_api,
             origin_path="/prod",
-            custom_headers={"x-api-key": f"REPLACE ME WITH API KEY ID {api_key.key_id }"}
+            custom_headers={"x-api-key": f"REPLACE ME WITH API KEY, ID {api_key.key_id }"}
         )
 
         distribution.add_behavior(
@@ -185,23 +183,23 @@ class S3WebsiteStack(Stack):
         )
         
         allow_s3_statement = iam.PolicyStatement(
-                actions=[
-                    "s3:GetBucket*",
-                    "s3:GetObject*",
-                    "s3:List*"  
-                ],
-                resources=[
-                    bucket.bucket_arn,
-                    bucket.arn_for_objects("*")
-                ],
-                principals=[iam.ServicePrincipal("cloudfront.amazonaws.com")],
-                effect=iam.Effect.ALLOW,
-                conditions={
-                    "StringEquals": {
-                    "AWS:SourceArn": f"{dist_arn}"
-                    }
+            actions=[
+                "s3:GetBucket*",
+                "s3:GetObject*",
+                "s3:List*"  
+            ],
+            resources=[
+                bucket.bucket_arn,
+                bucket.arn_for_objects("*")
+            ],
+            principals=[iam.ServicePrincipal("cloudfront.amazonaws.com")],
+            effect=iam.Effect.ALLOW,
+            conditions={
+                "StringEquals": {
+                "AWS:SourceArn": f"{dist_arn}"
                 }
-            )
+            }
+        )
 
         bucket.add_to_resource_policy(
             allow_s3_statement
