@@ -68,10 +68,8 @@ Check out my article about completing the project here:  [**The Cloud Resume Cha
     - the updated counter value is returned in JSON body
 
 - [ ] 11. Perform **Tests** on Python Code
-    - tests run on pytest framework, with lambda function imported locally to be tested
-    - 
-    - 
-    - requests module used to make calls to API URL endpoint 
+    - tests run using `pytest` and `moto` frameworks for lambda testing locally
+    - `pytest` framework is used for testing CloudFormation template synthesis
 
 - [ ] 12. Configure Resources with **IaC**
     - 
@@ -79,12 +77,12 @@ Check out my article about completing the project here:  [**The Cloud Resume Cha
 - [ ] 13. Utilize **Source Control** with GitHub
     - 
 
-- [ ] 14. Implement **Backend CI/CD** for Terraform with GitHub Actions
+- [ ] 14. Implement **Backend CI/CD** with GitHub Actions
     - 
 
 - [ ] 15. Implement **Frontend CI/CD** for Webpage Content with GitHub Actions
     - 
 
 - [ ] 16. Share Your Challenges and Learnings with a **Blog Post**
-    - 
+    - article published on LinkedIn
 
