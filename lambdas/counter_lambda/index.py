@@ -3,17 +3,22 @@ import json
 import os
 
 
-TABLE_NAME = os.environ.get('COUNTER_TABLE_NAME')
 
 def lambda_handler(event, context):
+
+    TABLE_NAME = os.environ.get('COUNTER_TABLE_NAME')
+    
     try:
         # Read the current value of the 'counter' key from DynamoDB
-        dynamodb = boto3.resource('dynamodb')
+        dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
         table = dynamodb.Table(TABLE_NAME)
     
         # Read the current item with id = 1 and counter = 0
         response = table.get_item(Key={'id': 1})
+        # print(response)
+
         item = response.get('Item')
+        # print(item)
     
         # Increment the counter by 1
         updated_counter = int(item.get('counter', 0)) + 1
@@ -40,10 +45,9 @@ def lambda_handler(event, context):
     
     except Exception as e:
         
-        print("Maybe missing an initial counter value")
-        print(e)
+        print(f"Error details: {e}")
 
         return {
             'statusCode': 500,
-            'body': f'Maybe missing an initial counter value: {e}'
+            'body': f'Error details: {e}'
         }

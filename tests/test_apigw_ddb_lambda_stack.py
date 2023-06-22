@@ -31,7 +31,3 @@ def test_synthesizes_properly():
             "Runtime": "python3.9"
         }
     )
-
-    
-
-                
