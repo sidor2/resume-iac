@@ -67,22 +67,36 @@ Check out my article about completing the project here:  [**The Cloud Resume Cha
     - function checks latest count from table, increments by 1, and writes back to the table
     - the updated counter value is returned in JSON body
 
-- [ ] 11. Perform **Tests** on Python Code
+- [x] 11. Perform **Tests** on Python Code
     - tests run using `pytest` and `moto` frameworks for lambda testing locally
     - `pytest` framework is used for testing CloudFormation template synthesis
 
-- [ ] 12. Configure Resources with **IaC**
-    - 
+- [x] 12. Configure Resources with **IaC**
+    - IaC configured using AWS Python CDK
+    - The app contains 2 stacks:
+        - Frontend infrastructure, S3WebsiteStack
+        - Backend infrastructure, ApiGwDdbStack
+    - Refer to the CDK App Architecture Diagram
 
-- [ ] 13. Utilize **Source Control** with GitHub
-    - 
+- [x] 13. Utilize **Source Control** with GitHub
+    - all code related to infrastructure stored in a GitHub repository
+    - version control utilized to track changes and capture development over time
 
-- [ ] 14. Implement **Backend CI/CD** with GitHub Actions
-    - 
+- [x] 14. Implement **Backend CI/CD** with GitHub Actions
+    - workflows are triggered by a `push` event, or manually by `workflow_dispatch`
+    - workflow runs on GitHub-hosted Linux runner
+    - Python dependencies installed on runner per requirements.txt file using pip
+    - GitHub Actions configured as trusted identity provider with AWS, utilizing OpenID Connect token-based authentication for short-lived credentials
+    - ARN of GitHub Actions IAM Role passed into workflow file as an environmental variable using GitHub repository secrets
 
 - [ ] 15. Implement **Frontend CI/CD** for Webpage Content with GitHub Actions
     - 
 
 - [ ] 16. Share Your Challenges and Learnings with a **Blog Post**
-    - article published on LinkedIn
+    - 
+
+### CDK App Architecture Diagram
+<img src="./diagram.png" alt="CDK App Architecture Diagram" width="50%" height="25%" align="left">
+
+
 

@@ -4,9 +4,10 @@ on:
   push:
     branches:
       - main
-    # paths-ignore:
-    #   - '**/delete.txt'
-    #   - '**/destroy.yml'
+    paths-ignore:
+      - '**/main.yml'
+      - '**/destroy.yml'
+      - '**/README.md'
   workflow_dispatch:
 
 env:
