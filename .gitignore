@@ -15,5 +15,5 @@ resume_iac/s3_website__stack.py
 iam.json
 .vscode/settings.json
 diagram/
-diagram*
+diagram.dot
 README.md

@@ -1,23 +1,20 @@
-# cloud-resume-challenge
+# Cloud Resume Challenge
+[Forrest Brazeal](https://forrestbrazeal.com/) developed the [Cloud Resume Challenge](https://cloudresumechallenge.dev/docs/the-challenge/aws/) as an independent and interactive undertaking aimed at integrating a diverse set of skills employed by DevOps Engineers and Cloud Developers.
 
-The [Cloud Resume Challenge](https://cloudresumechallenge.dev/docs/the-challenge/aws/) was created by [Forrest Brazeal](https://forrestbrazeal.com/) as a self-guided, hands-on project to incorporate a large range of skills used by DevOps Engineers and Cloud Developers.
-
-The challenge is designed to champion *self-learning* as it intentionally gives only high-level guidance on how to research, navigate, and implement core topics such as DNS, APIs, Testing, Infrastructure-as-Code, and CI/CD pipelines.
+The objective of this challenge is to emphasize the importance of self-directed learning by providing limited instructions regarding researching, navigating, and implementing fundamental subjects like DNS, APIs, Testing, Infrastructure-as-Code, and CI/CD pipelines.
 
 </br>
 
 My website is built on AWS using S3, CloudFront, Route 53, Certificate Manager, Lambda, DynamoDB, API Gateway, and the Boto3 Python SDK.
 
-Infrastructure-as-Code is implemented using AWS Python CDK, while two CI/CD pipelines are triggered and executed using GitHub Actions. Although the challenge asks for utilizing Terraform, I was already in the process of learning the CDK and decided to 
+Infrastructure-as-Code is implemented using AWS Python CDK, and two CI/CD pipelines are triggered and executed using GitHub Actions. Although the challenge requires the use of Terraform, I had already begun learning AWS Python CDK. Therefore, I decided to leverage the opportunity of building the Cloud Resume Challenge infrastructure to enhance my knowledge of AWS CDK.
 
 </br>
 
-View the site at [**www.sidor.com**](https://www.sidor.com).
-
-Check out my article about completing the project here:  [**The Cloud Resume Challenge:  My DevOps Journey from Building Technology to the Cloud**](https://www.linkedin.com/pulse/cloud-resume-challenge-my-devops-journey-from-building-william-lewis)
+View the site at [**www.sidor.me**](https://www.sidor.me).
 
 
-<img src="./website-architecture-diagram.svg" alt="Website Architecture Diagram" width="100%" height="56.25%">
+<img src="./diagram.png" alt="CDK App Architecture Diagram" width="50%" height="25%">
 
 </br>
 </br>
@@ -25,7 +22,6 @@ Check out my article about completing the project here:  [**The Cloud Resume Cha
 ---
 
 ## Challenge Steps & Notes:
-
 
 - [x]  1. Earn an **AWS Certification**
     - AWS Certified Solutions Architect – Associate, September 2022
@@ -76,7 +72,6 @@ Check out my article about completing the project here:  [**The Cloud Resume Cha
     - The app contains 2 stacks:
         - Frontend infrastructure, S3WebsiteStack
         - Backend infrastructure, ApiGwDdbStack
-    - Refer to the CDK App Architecture Diagram
 
 - [x] 13. Utilize **Source Control** with GitHub
     - all code related to infrastructure stored in a GitHub repository
@@ -94,9 +89,3 @@ Check out my article about completing the project here:  [**The Cloud Resume Cha
 
 - [ ] 16. Share Your Challenges and Learnings with a **Blog Post**
     - 
-
-### CDK App Architecture Diagram
-<img src="./diagram.png" alt="CDK App Architecture Diagram" width="50%" height="25%" align="left">
-
-
-
