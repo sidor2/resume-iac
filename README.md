@@ -28,11 +28,8 @@ View the site at [**www.sidor.me**](https://www.sidor.me).
     - AWS Certified Security – Specialty, March 2023
 
 - [ ]  2. Write Resume in **HTML**
-    - 
-    - 
 
 - [ ]  3. Style Resume in **CSS**
-    - 
 
 - [ ]  4. Deploy Resume to Static Website with **AWS S3**
     - the S3 bucket is configured as the first origin and exposed via Cloudfront
@@ -85,7 +82,5 @@ View the site at [**www.sidor.me**](https://www.sidor.me).
     - ARN of GitHub Actions IAM Role passed into workflow file as an environmental variable using GitHub repository secrets
 
 - [ ] 15. Implement **Frontend CI/CD** for Webpage Content with GitHub Actions
-    - 
 
 - [ ] 16. Share Your Challenges and Learnings with a **Blog Post**
-    - 
