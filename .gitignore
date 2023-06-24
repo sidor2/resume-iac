@@ -17,3 +17,4 @@ iam.json
 diagram/
 diagram.dot
 README.md
+admin_scripts/assign_api_key_to_origin.py

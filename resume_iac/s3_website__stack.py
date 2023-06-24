@@ -229,4 +229,3 @@ class S3WebsiteStack(Stack):
             value=distribution.distribution_id,
             description="Distribution Id"
         )
-       

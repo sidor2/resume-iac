@@ -124,4 +124,3 @@ class ApiDdbLambdaStack(Stack):
             value=self.rest_api.url,
             description="API Endpoint"
         )
-
