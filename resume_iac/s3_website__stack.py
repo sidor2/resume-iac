@@ -109,7 +109,7 @@ class S3WebsiteStack(Stack):
         )
 
         security_headers = cloudfront.ResponseSecurityHeadersBehavior(
-            # content_security_policy=cs_policy,
+            content_security_policy=cs_policy,
             content_type_options=ct_options,
             frame_options=frame_opt,
             referrer_policy=ref_policy,
