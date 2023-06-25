@@ -1,7 +1,7 @@
 default-src 'none'; 
-script-src-elem 'self' cindyp13.sg-host.com; 
+script-src-elem 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net; 
 connect-src 'self'; 
 frame-src 'self' www.credly.com; 
-style-src 'unsafe-inline' fonts.googleapis.com;
-style-src-elem 'self';
-img-src 'self' cindyp13.sg-host.com;
+style-src 'unsafe-inline';
+style-src-elem 'self' https://fonts.googleapis.com;
+img-src 'self';
