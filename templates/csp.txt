@@ -1,5 +1,5 @@
 default-src 'none'; 
-script-src-elem 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net; 
+script-src-elem 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net https://use.fontawesome.com https://fonts.gstatic.com; 
 connect-src 'self'; 
 frame-src 'self' www.credly.com; 
 style-src 'unsafe-inline';
