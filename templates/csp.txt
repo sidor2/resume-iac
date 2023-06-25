@@ -5,3 +5,4 @@ frame-src 'self' www.credly.com;
 style-src 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://use.fontawesome.com https://fonts.gstatic.com;
 style-src-elem 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net https://use.fontawesome.com https://fonts.gstatic.com;
 img-src 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net https://use.fontawesome.com https://fonts.gstatic.com;
+font-src: 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net https://use.fontawesome.com https://fonts.gstatic.com;
