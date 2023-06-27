@@ -27,11 +27,13 @@ View the site at [**www.sidor.me**](https://www.sidor.me).
     - AWS Certified Solutions Architect – Associate, September 2022
     - AWS Certified Security – Specialty, March 2023
 
-- [ ]  2. Write Resume in **HTML**
+- [x]  2. Write Resume in **HTML**
+    - used a free Bootstrap template
 
-- [ ]  3. Style Resume in **CSS**
+- [x]  3. Style Resume in **CSS**
+    - added styles for displaying certificates and visitors counter
 
-- [ ]  4. Deploy Resume to Static Website with **AWS S3**
+- [x]  4. Deploy Resume to Static Website with **AWS S3**
     - the S3 bucket is configured as the first origin and exposed via Cloudfront
     - public access is restricted only via the Cloudfront distribution by utilized OAC (origin access control)
     - Block Public Access is ON & static website feature disabled for compatibility with OAC
@@ -60,27 +62,31 @@ View the site at [**www.sidor.me**](https://www.sidor.me).
     - function checks latest count from table, increments by 1, and writes back to the table
     - the updated counter value is returned in JSON body
 
-- [x] 11. Perform **Tests** on Python Code
+- [x] 10. Perform **Tests** on Python Code
     - tests run using `pytest` and `moto` frameworks for lambda testing locally
     - `pytest` framework is used for testing CloudFormation template synthesis
 
-- [x] 12. Configure Resources with **IaC**
+- [x] 11. Configure Resources with **IaC**
     - IaC configured using AWS Python CDK
     - The app contains 2 stacks:
         - Frontend infrastructure, S3WebsiteStack
         - Backend infrastructure, ApiGwDdbStack
 
-- [x] 13. Utilize **Source Control** with GitHub
+- [x] 12. Utilize **Source Control** with GitHub
     - all code related to infrastructure stored in a GitHub repository
     - version control utilized to track changes and capture development over time
 
-- [x] 14. Implement **Backend CI/CD** with GitHub Actions
+- [x] 13. Implement **Backend CI/CD** with GitHub Actions
     - workflows are triggered by a `push` event, or manually by `workflow_dispatch`
     - workflow runs on GitHub-hosted Linux runner
     - Python dependencies installed on runner per requirements.txt file using pip
     - GitHub Actions configured as trusted identity provider with AWS, utilizing OpenID Connect token-based authentication for short-lived credentials
     - ARN of GitHub Actions IAM Role passed into workflow file as an environmental variable using GitHub repository secrets
 
-- [ ] 15. Implement **Frontend CI/CD** for Webpage Content with GitHub Actions
+- [x] 14. Implement **Frontend CI/CD** for Webpage Content with GitHub Actions
+    - a workflow is defined to trigger on push event
+    - GitHub repo is synchronized to the S3 bucket
+    - CloudFront caching is disabled while in development
+    - invalidation script will be created after the release
 
-- [ ] 16. Share Your Challenges and Learnings with a **Blog Post**
+- [ ] 15. Share Your Challenges and Learnings with a **Blog Post**
