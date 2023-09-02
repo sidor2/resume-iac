@@ -15,7 +15,7 @@ View the site at [**www.sidor.me**](https://www.sidor.me).
 
 
 ### Workflow Diagram
-<img src="./CRCWorkflow.png" alt="Workflow diagram" width="50%" height="25%">
+<img src="./CRCWorkflow.png" alt="Workflow diagram" width="75%" height="50%">
 
 #### Stack Architecture Diagram
 <img src="./diagram.png" alt="CDK App Architecture Diagram" width="50%" height="25%">
