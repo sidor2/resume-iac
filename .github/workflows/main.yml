@@ -8,6 +8,7 @@ on:
       - '**/main.yml'
       - '**/destroy.yml'
       - '**/README.md'
+      - '**/*.png'
   workflow_dispatch:
 
 env:

@@ -14,6 +14,10 @@ Infrastructure-as-Code is implemented using AWS Python CDK, and two CI/CD pipeli
 View the site at [**www.sidor.me**](https://www.sidor.me).
 
 
+### Workflow Diagram
+<img src="./CRCWorkflow.png" alt="Workflow diagram" width="50%" height="25%">
+
+#### Stack Architecture Diagram
 <img src="./diagram.png" alt="CDK App Architecture Diagram" width="50%" height="25%">
 
 </br>
