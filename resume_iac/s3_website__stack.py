@@ -10,6 +10,7 @@ from aws_cdk import (
     aws_cloudfront as cloudfront,
     aws_certificatemanager as acm,
     aws_route53 as route53,
+    aws_route53_targets as targets,
     aws_s3 as s3,
     aws_iam as iam,
     aws_apigateway as apigateway
@@ -214,7 +215,7 @@ class S3WebsiteStack(Stack):
         route53.ARecord(self, "RootAlias",
             zone=hosted_zone,
             record_name=f"{domain_name}",
-            target=route53.RecordTarget.from_alias(route53.IAliasRecordTarget(distribution))
+            target=route53.RecordTarget.from_alias(targets.CloudFrontTarget(distribution))
         )
 
 
