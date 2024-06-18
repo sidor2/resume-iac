@@ -214,7 +214,7 @@ class S3WebsiteStack(Stack):
         route53.ARecord(self, "RootAlias",
             zone=hosted_zone,
             record_name=f"{domain_name}",
-            target=route53.RecordTarget.from_values(distribution.distribution_domain_name)
+            target=route53.RecordTarget.from_alias(route53.IAliasRecordTarget(distribution))
         )
 
 
