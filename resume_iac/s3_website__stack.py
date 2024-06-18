@@ -149,7 +149,7 @@ class S3WebsiteStack(Stack):
             default_behavior=default_behave,
             price_class=cloudfront.PriceClass.PRICE_CLASS_100,
             certificate=certificate,
-            domain_names=[f"www.{domain_name}"],
+            domain_names=[f"www.{domain_name}",f"{domain_name}"],
             comment="CloudFront Distribution for the S3 Website",
             default_root_object="index.html",
             error_responses=[not_found_res, not_auth_res]
@@ -209,6 +209,12 @@ class S3WebsiteStack(Stack):
             zone=hosted_zone,
             record_name=f"www.{domain_name}",
             domain_name=distribution.distribution_domain_name,
+        )
+
+        route53.ARecord(self, "RootAlias",
+            zone=hosted_zone,
+            record_name=f"{domain_name}",
+            target=distribution.distribution_domain_name
         )
 
 
