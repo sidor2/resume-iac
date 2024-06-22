@@ -75,7 +75,7 @@ class S3WebsiteStack(Stack):
             signing_protocol="sigv4"
         )
 
-        cfn_origin_access_control = cloudfront.CfnOriginAccessControl(self, 
+        oac = cloudfront.CfnOriginAccessControl(self, 
             "BucketOAC",
             origin_access_control_config=oac_config
         )
@@ -204,6 +204,38 @@ class S3WebsiteStack(Stack):
 
         bucket.add_to_resource_policy(
             allow_s3_statement
+        )
+
+        ## clean-up the OAI reference and associate the OAC with the cloudfront distribution 
+        # query the site bucket policy as a document
+        bucket_policy = bucket.policy
+        bucket_policy_document = bucket_policy.document
+
+        # remove the CloudFront Origin Access Identity permission from the bucket policy
+        if isinstance(bucket_policy_document, iam.PolicyDocument):
+            bucket_policy_document_json = bucket_policy_document.to_json()
+            # create an updated policy without the OAI reference
+            bucket_policy_updated_json = {'Version': '2012-10-17', 'Statement': []}
+            for statement in bucket_policy_document_json['Statement']:
+                if 'CanonicalUser' not in statement['Principal']:
+                    bucket_policy_updated_json['Statement'].append(statement)
+
+        # apply the updated bucket policy to the bucket
+        bucket_policy_override = bucket.node.find_child("Policy").node.default_child
+        bucket_policy_override.add_override('Properties.PolicyDocument', bucket_policy_updated_json)
+
+        # remove the created OAI reference (S3 Origin property) for the distribution
+        all_distribution_props = distribution.node.find_all()
+        for child in all_distribution_props:
+            if child.node.id == 'S3Origin':
+                child.node.try_remove_child('Resource')
+
+        # associate the created OAC with the distribution
+        distribution_props = distribution.node.default_child
+        distribution_props.add_override('Properties.DistributionConfig.Origins.0.S3OriginConfig.OriginAccessIdentity', '')
+        distribution_props.add_property_override(
+            "DistributionConfig.Origins.0.OriginAccessControlId",
+            oac.ref
         )
 
         route53.CnameRecord(self, "CnameRecord",
