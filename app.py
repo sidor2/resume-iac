@@ -27,7 +27,8 @@ S3WebsiteStack(app, "S3WebsiteStack",
         region=os.environ["CDK_DEFAULT_REGION"]
     ),
     rest_api=api_ddb_lambda.rest_api,
-    api_key=api_ddb_lambda.apikey_value,
+    api_key=api_ddb_lambda.api_key,
+    apikey_value=api_ddb_lambda.apikey_value
 )
 
 app.synth()

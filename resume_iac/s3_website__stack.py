@@ -39,7 +39,8 @@ class S3WebsiteStack(Stack):
                 id: str, 
                 domain_name: str, 
                 rest_api: apigateway.RestApi,
-                api_key: str, 
+                api_key: apigateway.ApiKey,
+                apikey_value: str, 
                 **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
@@ -159,8 +160,10 @@ class S3WebsiteStack(Stack):
         rest_api_origin = origins.RestApiOrigin(
             rest_api=rest_api,
             origin_path="/prod",
-            # custom_headers={"x-api-key": f"REPLACE ME WITH API KEY, ID {api_key.key_id }"}
-            custom_headers={"x-api-key": f"{api_key}"}
+            custom_headers={
+                "old-api-key": f"Just a place holder for {api_key.key_id}. Can't be deleted.",
+                "x-api-key": f"{apikey_value}"
+            }
         )
 
         distribution.add_behavior(
