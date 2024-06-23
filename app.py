@@ -10,7 +10,8 @@ from resume_iac.apigw_ddb_lambda_stack import ApiDdbLambdaStack
 
 app = cdk.App()
 
-domain_name = os.environ["DOMAIN"]
+# domain_name = os.environ["DOMAIN"]
+domain_name = 'sidor.me'
 
 api_ddb_lambda = ApiDdbLambdaStack(app, "ApiGwDdbStack",
     env=cdk.Environment(
@@ -26,7 +27,7 @@ S3WebsiteStack(app, "S3WebsiteStack",
         region=os.environ["CDK_DEFAULT_REGION"]
     ),
     rest_api=api_ddb_lambda.rest_api,
-    api_key=api_ddb_lambda.api_key,
+    api_key=api_ddb_lambda.apikey_value,
 )
 
 app.synth()

@@ -8,6 +8,13 @@ from aws_cdk import (
     aws_iam as iam,
     aws_lambda as _lambda,
 )
+from aws_cdk.custom_resources import (
+    AwsCustomResource,
+    AwsCustomResourcePolicy,
+    AwsSdkCall,
+    PhysicalResourceId
+)
+from aws_cdk.aws_apigateway import IApiKey
 from constructs import Construct
 
 with open("./templates/get_counter_template.txt", "r", encoding="utf-8") as f:
@@ -118,6 +125,32 @@ class ApiDdbLambdaStack(Stack):
         )
 
         plan.add_api_key(self.api_key)
+
+        api_key = AwsSdkCall(
+            service="APIGateway",
+            action="getApiKey",
+            parameters={
+                "apiKey": self.api_key.key_id,
+                "includeValue": True,
+            },
+            physical_resource_id=PhysicalResourceId.of(f"APIKey:{self.api_key.key_id}")
+        )
+
+        api_key_cr = AwsCustomResource(self, "api-key-cr",
+            policy=AwsCustomResourcePolicy.from_statements([
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
+                    resources=[self.api_key.key_arn],
+                    actions=["apigateway:GET"]
+                )
+            ]),
+            log_retention=logs.RetentionDays.ONE_DAY,
+            on_create=api_key,
+            on_update=api_key
+        )
+
+        api_key_cr.node.add_dependency(self.api_key)
+        self.apikey_value = api_key_cr.get_response_field("value")
 
         # Output the API URL
         CfnOutput(self, "ApiEndpoint",
