@@ -28,7 +28,7 @@ S3WebsiteStack(app, "S3WebsiteStack",
     ),
     rest_api=api_ddb_lambda.rest_api,
     api_key=api_ddb_lambda.api_key,
-    apikey_value=api_ddb_lambda.apikey_value
+    api_key_value=api_ddb_lambda.api_key_value
 )
 
 app.synth()

@@ -40,7 +40,7 @@ class S3WebsiteStack(Stack):
                 domain_name: str, 
                 rest_api: apigateway.RestApi,
                 api_key: apigateway.ApiKey,
-                apikey_value: str, 
+                api_key_value: str, 
                 **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
@@ -129,8 +129,7 @@ class S3WebsiteStack(Stack):
             viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
             allowed_methods=cloudfront.AllowedMethods.ALLOW_GET_HEAD,
             response_headers_policy=response_headers_policy,
-            # TODO: enable cache for prod
-            cache_policy=cloudfront.CachePolicy.CACHING_DISABLED,
+            cache_policy=cloudfront.CachePolicy.CACHING_OPTIMIZED,
         )
 
         not_found_res = cloudfront.ErrorResponse(
@@ -162,7 +161,7 @@ class S3WebsiteStack(Stack):
             origin_path="/prod",
             custom_headers={
                 "old-api-key": f"Just a place holder for {api_key.key_id}. Can't be deleted.",
-                "x-api-key": f"{apikey_value}"
+                "x-api-key": f"{api_key_value}"
             }
         )
 

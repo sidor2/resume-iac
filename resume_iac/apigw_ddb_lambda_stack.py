@@ -1,3 +1,5 @@
+import hashlib
+import secrets
 from aws_cdk import (
     Stack,
     CfnOutput,
@@ -126,7 +128,7 @@ class ApiDdbLambdaStack(Stack):
 
         plan.add_api_key(self.api_key)
 
-        api_key = AwsSdkCall(
+        get_api_key = AwsSdkCall(
             service="APIGateway",
             action="getApiKey",
             parameters={
@@ -145,12 +147,12 @@ class ApiDdbLambdaStack(Stack):
                 )
             ]),
             log_retention=logs.RetentionDays.ONE_DAY,
-            on_create=api_key,
-            on_update=api_key
+            on_create=get_api_key,
+            on_update=get_api_key
         )
 
         api_key_cr.node.add_dependency(self.api_key)
-        self.apikey_value = api_key_cr.get_response_field("value")
+        self.api_key_value = api_key_cr.get_response_field("value")
 
         # Output the API URL
         CfnOutput(self, "ApiEndpoint",
